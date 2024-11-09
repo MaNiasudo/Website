@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %} market {% endblock %} {% block
+content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Welcome To market</h1>
+
+    <table class="table table-secondary table-hover table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>  
+          <th scope="col">Name</th>
+          <th scope="col">Barcode</th>
+          <th scope="col">Price</th>
+          <th scope="col">Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{item.id}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.barcode}}</td>
+          <td>{{item.price}}</td>
+          <td>
+            <button type="button" class="btn btn-info">More info</button>
+            <button type="button" class="btn btn-success"">Purchase this item</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
+{% endblock %}
