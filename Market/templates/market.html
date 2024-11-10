@@ -1,23 +1,62 @@
-{% extends "base.html" %} {% block title %} market {% endblock %} {% block
+{% extends "base.html" %} {% block title %} Market {% endblock %} {% block
 content %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
   </head>
   <body>
     <h1>Welcome To market</h1>
 
+    <form method="post" class="row g-3">
+      <div class="col-md-6">
+        <p>
+          <label for="name" class="form-label">Name:</label>
+          <input type="text" class="form-control" id="name" name="name" />
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <label for="price" class="form-label">Price:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="item_price"
+            name="item_price"
+          />
+        </p>
+      </div>
+      <div class="col-12">
+        <p>
+          <label for="barcode" class="form-label">Barcode:</label>
+          <input type="text" class="form-control" id="barcode" name="barcode" />
+        </p>
+      </div>
+      <div class="col-12">
+        <p>
+          <label for="desc">Description:</label>
+          <textarea
+            id="text"
+            class="form-control"
+            aria-label="With textarea"
+            id="desc"
+            name="desc"
+          ></textarea>
+        </p>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
     <table class="table table-secondary table-hover table-sm">
       <thead>
         <tr>
-          <th scope="col">ID</th>  
+          <th scope="col">ID</th>
           <th scope="col">Name</th>
           <th scope="col">Barcode</th>
           <th scope="col">Price</th>
           <th scope="col">Option</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -29,7 +68,13 @@ content %}
           <td>{{item.price}}</td>
           <td>
             <button type="button" class="btn btn-info">More info</button>
-            <button type="button" class="btn btn-success"">Purchase this item</button>
+            <button type="button" class="btn btn-success">
+              Purchase this item
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-warning">Edit item</button>
+            <button type="button" class="btn btn-danger">Delete item</button>
           </td>
         </tr>
         {% endfor %}
