@@ -1,11 +1,24 @@
-from flask import Blueprint , Flask , render_template
+from flask import Blueprint , Flask , render_template , request , flash
+from . import db
+from .models import Item
+
 
 market = Blueprint('market',__name__)
 
-@market.route('/market')
+@market.route('/market',methods=['POST' , 'GET'])
 def market_page():
-    items = [
-        {'id':1,'name':'Phone', 'barcode':'213984219', 'price':500 },
-        {'id':2,'name':'Laptop', 'barcode':'512132119', 'price':900}
-    ]
-    return render_template('market.html', items=items)
+    if request.method == 'POST':
+        name = request.form.get('name')
+        price = request.form.get('item_price')
+        barcode = request.form.get('barcode')
+        desc = request.form.get('desc')
+
+        new_item = Item(name=name , price=price, barcode=barcode, description=desc)
+        db.session.add(new_item)
+        db.session.commit()
+
+        flash("Item Added Successfully", category='success')
+
+    items = Item.query.all()
+    
+    return render_template('market.html',items=items)
