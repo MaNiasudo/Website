@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %} Tasks {% endblock %} {% block
+content %} 
+<form method="post" class="row g-3">
+      <div class="col-md-6">
+        <p>
+          <label for="task" class="form-label">Task:</label>
+          <input type="text" class="form-control" id="task" name="task" />
+        </p>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <table class="table table-secondary table-hover table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Task</th>
+          <th scope="col">status</th>
+          <th scope="col">date</th>
+          <th scope="col">Option</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{item.id}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.barcode}}</td>
+          <td>{{item.price}}</td>
+          <td>
+            <button type="button" class="btn btn-warning">Edit item</button>
+            <button type="button" class="btn btn-danger">Delete item</button>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+
+{% endblock %}

@@ -140,3 +140,21 @@ a.sidebar-link:hover {
   transform: rotate(45deg);
   transition: all 0.2s ease-out;
 }
+
+.flash-messages {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050; /* Keeps it above other content */
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.flash-messages .alert {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
