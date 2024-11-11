@@ -1,0 +1,18 @@
+<form method="POST" action="{{ url_for('create_family') }}">
+  <input type="text" name="family_name" placeholder="Family Name" />
+  <button type="submit">Create Family</button>
+</form>
+<form
+  method="POST"
+  action="{{ url_for('family.add_user_family', family_id=family.id) }}"
+>
+  <input type="text" name="username" placeholder="Username" required />
+  <button type="submit">Add User to Family</button>
+</form>
+
+<form
+  action="{{ url_for('family.delete_family', family_id=family.id) }}"
+  method="POST"
+>
+  <button type="submit">Delete Family</button>
+</form>
