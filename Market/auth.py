@@ -10,7 +10,7 @@ auth = Blueprint("auth",__name__)
 @auth.route('/register', methods=["POST" , "GET"])
 def register():
     if request.method == "POST":
-        first_name = request.form.get('first_name')
+        username = request.form.get('username')
         email = request.form.get('email')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
@@ -23,7 +23,7 @@ def register():
         if User.query.filter_by(email=email).first():
             flash("Email already exists.", category='error')
 
-        new_user = User(email=email , first_name=first_name)
+        new_user = User(email=email , username=username)
         new_user.set_password(password1)
         db.session.add(new_user)
         db.session.commit()
