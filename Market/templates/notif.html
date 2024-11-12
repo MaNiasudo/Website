@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %} Notifications {% endblock %} {%
+block content %}
+<h1>Notifications</h1>
+<table class="table table-info table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Task Date</th>
+      <th scope="col">Option</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for message in messages %}
+    <tr>
+      <td>{{ message.id }}</td>
+      <td>{{ message.message }}</td>
+      <td>{{ message.date_created}}</td>
+      <td>
+        <button type="button" class="btn btn-success">Add To Tasks</button>
+        <button type="button" class="btn btn-primary">Mark as read</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

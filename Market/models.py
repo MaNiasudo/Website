@@ -16,8 +16,8 @@ class Note(db.Model):
 class UserFamilies(db.Model):
     __tablename__ = 'user_families'
     id = db.Column(db.Integer,primary_key=True)
-    user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    family_id = db.Column('family_id', db.Integer, db.ForeignKey('family.id'))
+    user_id = db.Column( db.Integer, db.ForeignKey('users.id'))
+    family_id = db.Column( db.Integer, db.ForeignKey('family.id'))
 
 
 class User(db.Model, UserMixin):
@@ -31,9 +31,9 @@ class User(db.Model, UserMixin):
     families = db.relationship('Family', secondary='user_families', backref='users')
   
     
-    def __init__(self,email , first_name , password=None):
+    def __init__(self,email , username , password=None):
         self.email = email 
-        self.first_name = first_name
+        self.username = username
         if password :
             self.set_password(password)
 
@@ -68,7 +68,6 @@ class Task(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
 
-    # Relationships
     user = db.relationship('User', backref='tasks')  # Access user's tasks
     family = db.relationship('Family', backref='tasks')  # Access family's tasks
 
@@ -81,13 +80,12 @@ class Notification(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     message = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)
     read = db.Column(db.Boolean(), default=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
 
     # Relationships
     user = db.relationship('User', backref='notifications')
-    task = db.relationship('Task', backref='notifications')
+
 
     def __repr__(self):
         return f'<Notification {self.message}>'

@@ -1,0 +1,93 @@
+{% extends "base.html" %} {% block title %} Family: {{ family.family_name }} {%
+endblock %} {% block content %}
+<h1>Welcome to {{ family.family_name }}</h1>
+<table class="table table-info table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Option</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for family_member in family_members %}
+    <tr>
+      <td>{{ family_member.id }}</td>
+      <td>{{ family_member.username }}</td>
+      <td>
+        <button type="button" class="btn btn-danger">Delete</button>
+        <!-- Assign Task Button -->
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#assignTaskModal{{ family_member.id  }}"
+        >
+          Assign Task
+        </button>
+
+        <!-- Modal for Assigning Task to Specific User -->
+        <div
+          class="modal fade"
+          id="assignTaskModal{{ family_member.id }}"
+          tabindex="-1"
+          aria-labelledby="assignTaskModalLabel{{ family_member.id  }}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5
+                  class="modal-title"
+                  id="assignTaskModalLabel{{ family_member.id  }}"
+                >
+                  Assign Task to {{ family_member.username }}
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form
+                  action="{{ url_for('family.notification', family_id=family.id , user_id=family_member.id) }}"
+                  method="POST"
+                >
+                  <div class="mb-3">
+                    <label
+                      for="task-details-{{ family_member.id }}"
+                      class="col-form-label"
+                      >Task:</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="task-details"
+                      name="notif"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Assign Task
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
