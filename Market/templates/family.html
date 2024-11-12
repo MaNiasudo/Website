@@ -1,18 +1,119 @@
-<form method="POST" action="{{ url_for('create_family') }}">
-  <input type="text" name="family_name" placeholder="Family Name" />
-  <button type="submit">Create Family</button>
-</form>
+{% extends "base.html" %} {% block title %} Family {% endblock %} {% block
+content %}
 <form
-  method="POST"
-  action="{{ url_for('family.add_user_family', family_id=family.id) }}"
+  method="post"
+  action="{{ url_for('family.create_family') }}"
+  class="row g-3"
 >
-  <input type="text" name="username" placeholder="Username" required />
-  <button type="submit">Add User to Family</button>
+  <div class="col-md-6">
+    <label for="family_name" class="form-label">Family Name:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="family_name"
+      name="family_name"
+      required
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Create Family</button>
 </form>
 
-<form
-  action="{{ url_for('family.delete_family', family_id=family.id) }}"
-  method="POST"
->
-  <button type="submit">Delete Family</button>
-</form>
+<table class="table table-secondary table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Family</th>
+      <th scope="col">Option</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for family in families %}
+    <tr>
+      <td>{{loop.index}}</td>
+      <td>{{family.family_name}}</td>
+      <td>
+        <div style="display: flex; gap: 5px">
+          <a
+            href="{{ url_for('family.view_family', family_id=family.id) }}"
+            class="btn btn-info"
+            >View Family</a
+          >
+          <form
+            action="{{ url_for('family.delete_family', family_id=family.id) }}"
+            method="POST"
+          >
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          <button
+            type="button"
+            class="btn btn-warning"
+            data-bs-toggle="modal"
+            data-bs-target="#addMemberModal{{ family.id }}"
+          >
+            Add Member
+          </button>
+          <div
+            class="modal fade"
+            id="addMemberModal{{ family.id }}"
+            tabindex="-1"
+            aria-labelledby="addMemberModalLabel{{ family.id }}"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5
+                    class="modal-title"
+                    id="addMemberModalLabel{{ family.id }}"
+                  >
+                    Add Member to Family
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form
+                    action="{{ url_for('family.add_user_family', family_id=family.id) }}"
+                    method="POST"
+                  >
+                    <div class="mb-3">
+                      <label for="username" class="col-form-label"
+                        >Username:</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        required
+                      />
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Add Member
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
