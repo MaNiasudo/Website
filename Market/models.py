@@ -64,12 +64,12 @@ class Task(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     task_text = db.Column(db.String(length=250), nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
-    family_id = db.Column(db.Integer, db.ForeignKey('family.id'), nullable=False)
+    status = db.Column(db.String(30),nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
 
     user = db.relationship('User', backref='tasks')  # Access user's tasks
-    family = db.relationship('Family', backref='tasks')  # Access family's tasks
+
 
     def __repr__(self):
         return f'<Task {self.task_text}>'
