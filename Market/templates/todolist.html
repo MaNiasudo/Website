@@ -8,7 +8,7 @@ content %}
         </p>
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Add Task</button>
     </form>
 
     <table class="table table-secondary table-hover table-sm">
@@ -16,23 +16,28 @@ content %}
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Task</th>
-          <th scope="col">status</th>
-          <th scope="col">date</th>
+          <th scope="col">Date</th>
+          <th scope="col">Status</th>
           <th scope="col">Option</th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
-        {% for item in items %}
+        {% for task in tasks %}
         <tr>
-          <td>{{item.id}}</td>
-          <td>{{item.name}}</td>
-          <td>{{item.barcode}}</td>
-          <td>{{item.price}}</td>
+          <td>{{loop.index}}</td>
+          <td>{{task.task_text}}</td>
+          <td>{{task.date_created}}</td>
+          <td>{{task.status}}</td>
           <td>
-            <button type="button" class="btn btn-warning">Edit item</button>
-            <button type="button" class="btn btn-danger">Delete item</button>
+            
+            <button type="button" class="btn btn-success">Complete</button>
+           
+            <form action="{{url_for('tasks.delete_task', task_id=task.id)}}" method="post" style="display: inline">
+            <button type="submit" class="btn btn-danger">Delete Task</button>
             </button>
+            </form>
+            
           </td>
         </tr>
         {% endfor %}

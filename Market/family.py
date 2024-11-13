@@ -4,13 +4,17 @@ from . import db
 from flask_login import current_user , login_required
 
 
+
 family = Blueprint("family",__name__)
 
 
 @family.route('/family_view')
 @login_required
 def family_view():
+
+   
     families = Family.query.join(UserFamilies).filter(UserFamilies.user_id == current_user.id).all()
+   
     return render_template('family.html',families=families)
 
 
@@ -34,6 +38,13 @@ def create_family():
         new_family =Family(family_name=family_name)
         db.session.add(new_family)
         db.session.commit()
+        user_family_association = UserFamilies(user_id=current_user.id, family_id=new_family.id)
+        db.session.add(user_family_association)
+        db.session.commit()
+
+      
+    
+
 
         flash('Family created successfully !', category='success')
         return redirect(url_for('family.family_view'))
