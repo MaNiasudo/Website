@@ -89,5 +89,30 @@ class Notification(db.Model):
 
     def __repr__(self):
         return f'<Notification {self.message}>'
+    
 
+class Post(db.Model):
+    __tablename__ = "posts"
+    id = db.Column(db.Integer(), primary_key=True)
+    post_title =db.Column(db.String(150),nullable = False)
+    post_disc = db.Column(db.String(255), nullable = False)
+    post_date = db.Column(db.DateTime(timezone=True), default=func.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+
+    creator = db.relationship('User',backref="posts")
+
+
+
+class Comment(db.Model):
+    __tablename__="comments"
+    id = db.Column(db.Integer(), primary_key=True)
+    cmnt = db.Column(db.String(150), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'),nullable=False)
+
+    parent_comment_id =db.Column(db.Integer,db.ForeignKey('comments.id'),nullable=True)
+    parent_comment = db.relationship("Comment",remote_side=[id], backref="replies")
+
+    commenter = db.relationship("User", backref="comments")
+    post = db.relationship("Post", backref="comments")
     
