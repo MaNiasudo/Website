@@ -36,12 +36,14 @@ def create_app():
     from .tasks import tasks
     from .auth import auth
     from .family import family
+    from .posts import posts
 
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(home, url_prefix='/')
     app.register_blueprint(market, url_prefix='/')
     app.register_blueprint(tasks, url_prefix='/')
     app.register_blueprint(family, url_prefix='/')
+    app.register_blueprint(posts, url_prefix='/')
     
 
     return app
