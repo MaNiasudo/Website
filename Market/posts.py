@@ -2,19 +2,24 @@ from flask import Blueprint , render_template , request , url_for , redirect , f
 from flask_login import current_user , login_required
 from .models import User , Comment , Post
 from . import db
+from datetime import datetime
 
 posts = Blueprint('posts',__name__)
 
 @posts.route("/create_post",methods=["POST", "GET"])
+@login_required
 def create_post():
     if request.method == "POST":
         post_title = request.form.get('post_title')
         post_disc = request.form.get('post_disc')
 
 
-        new_post = Post(post_title=post_title , post_disc=post_disc , user_id=current_user.id )
+        new_post = Post(post_title=post_title , post_disc=post_disc , user_id=current_user.id,post_date=datetime.now())
         db.session.add(new_post)
         db.session.commit()
+
+    postz = Post.query.order_by(Post.post_date.desc()).all()
+    return render_template ("posts.html" , postz=postz)
 
 @posts.route("/delete_post/<int:post_id>",methods=["POST", "GET"])
 def delete_post(post_id):
@@ -23,6 +28,8 @@ def delete_post(post_id):
         db.session.delete(post)
         db.session.commit()
         flash("Post deleted!", category="success")
+        return redirect(url_for('posts.create_post'))
+
 
 
 @posts.route("/add_comment/<int:user_id>/<int:post_id>",methods=["POST","GET"])

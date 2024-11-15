@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block title %} Posts {% endblock %} {% block
+content %}
+<div class="container mt-5">
+  <div class="d-flex justify-content-center align-items-center mb-5">
+    <form method="post" class="w-50">
+      <div class="text-center">
+        <h1>Daily Blogs</h1>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          placeholder="Title"
+          name="post_title"
+        />
+        <label for="title">Title</label>
+      </div>
+      <div class="form-floating mb-3">
+        <textarea
+          class="form-control"
+          placeholder="What's on your mind?"
+          id="post_disc"
+          style="height: 100px"
+          name="post_disc"
+        ></textarea>
+        <label for="post_disc">Post</label>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-success btn-lg">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="posts-list">
+    {% if postz %}
+    <div class="row">
+      {% for post in postz %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.post_title }}</h5>
+            <p class="card-text">{{ post.post_disc }}</p>
+            <div class="text-muted small mb-2">
+              Posted by : {{ post.creator.username }} on {{
+              post.post_date.strftime('%Y-%m-%d %H:%M') }}
+              <form
+                action="{{ url_for('posts.delete_post', post_id=post.id) }}"
+                method="POST"
+              >
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-muted">
+      No posts yet. Be the first to share something!
+    </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
