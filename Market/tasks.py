@@ -32,3 +32,14 @@ def delete_task(task_id):
             db.session.commit()
             flash("Task Deleted", category='success')
         return redirect(url_for('tasks.task'))
+    
+@tasks.route('/complete_task/<int:task_id>', methods=["POST","GET"])
+@login_required
+def complete_task(task_id):
+    if request.method == "POST":
+        task = Task.query.get_or_404(task_id)
+        if task.user_id == current_user.id:
+            task.status = 'Complete'
+            db.session.commit()
+            flash("Task Completed", category='success')
+        return redirect(url_for('tasks.task'))

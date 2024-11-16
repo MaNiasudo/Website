@@ -4,6 +4,16 @@ from sqlalchemy.sql import func
 from werkzeug.security import generate_password_hash , check_password_hash
 import re
 
+
+email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+def is_valid_email(email):
+    return bool(re.match(email_regex, email))
+def is_valid_username(username):
+    return bool(re.match(r'^[a-zA-Z0-9]{7,}$', username))
+def is_valid_password(password):
+    password_regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
+    return bool(password_regex.match(password))
+
 class Note(db.Model):
     __tablename__ = "notes"
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +39,16 @@ class User(db.Model, UserMixin):
     budget = db.Column(db.Integer(),nullable=False, default=10000)
     
     families = db.relationship('Family', secondary='user_families', backref='users')
+
+
+    def __init__(self, username, email, password=None):
+        # Validate fields before assigning
+        if not is_valid_username(username):
+            raise ValueError("only letters and numbers, at least 7 characters")
+        if not is_valid_email(email):
+            raise ValueError("Invalid email format.")
+        if password and not is_valid_password(password):
+            raise ValueError("Password must be at least 8 characters long, with one uppercase letter, one digit, and one special character.")
   
     
     def __init__(self,email , username , password=None):
