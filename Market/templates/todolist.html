@@ -30,15 +30,15 @@ content %}
           <td>{{task.date_created}}</td>
           <td>{{task.status}}</td>
           <td>
-            
-            <button type="button" class="btn btn-success">Complete</button>
-           
+            <form action="{{url_for('tasks.complete_task', task_id=task.id)}}"method="post" style="display: inline">
+            <button type="submit" class="btn btn-success">Complete</button>
+           </form>
             <form action="{{url_for('tasks.delete_task', task_id=task.id)}}" method="post" style="display: inline">
             <button type="submit" class="btn btn-danger">Delete Task</button>
             </button>
             </form>
             
-          </td>
+          </td> 
         </tr>
         {% endfor %}
 
